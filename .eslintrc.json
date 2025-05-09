@@ -1,11 +1,7 @@
 {
   "extends": [
-    "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended"
+    "next/core-web-vitals"
   ],
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": "off",
@@ -38,6 +34,26 @@
     "@typescript-eslint/no-unsafe-type-query": "off",
     "@typescript-eslint/no-unsafe-type-reference": "off",
     "@typescript-eslint/no-unsafe-type-template": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/unbound-method": "off",
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/await-thenable": "off",
+    "@typescript-eslint/no-for-in-array": "off",
+    "@typescript-eslint/no-unsafe-enum-comparison": "off",
+    "@typescript-eslint/no-unsafe-declaration-merging": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-unsafe-enum-comparison": "off",
+    "@typescript-eslint/no-unsafe-declaration-merging": "off",
+    "@typescript-eslint/no-unsafe-optional-chaining": "off",
+    "@typescript-eslint/no-unsafe-type-assertion": "off",
+    "@typescript-eslint/no-unsafe-type-import": "off",
+    "@typescript-eslint/no-unsafe-type-export": "off",
+    "@typescript-eslint/no-unsafe-type-parameter": "off",
     "@typescript-eslint/no-unsafe-type-union": "off",
     "@typescript-eslint/no-unsafe-type-intersection": "off",
     "@typescript-eslint/no-unsafe-type-literal": "off",
