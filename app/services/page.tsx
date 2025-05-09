@@ -1,4 +1,5 @@
 import React from "react";
+import Image from 'next/image';
 
 const services = [
   {
@@ -68,19 +69,21 @@ export default function ServicesPage() {
       <div className="bg-white/5 rounded-xl p-8 shadow-xl w-full max-w-3xl">
         <h2 className="text-2xl font-semibold mb-8 text-white">What are you looking for?</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {services.map((service, idx) => (
-            <a
-              key={service.title}
-              href={`/services/${encodeURIComponent(service.title)}`}
-              className="relative flex flex-col items-center bg-white/10 rounded-lg p-6 shadow hover:scale-105 transition-transform cursor-pointer group text-inherit no-underline"
-            >
-              <img src={service.img} alt={service.title} className="h-20 mb-4" />
-              <span className="text-md font-medium text-white text-center mb-2">{service.title}</span>
-              {service.badge && (
-                <span className="absolute top-2 right-2 bg-pink-600 text-xs text-white font-bold rounded px-2 py-1">{service.badge}</span>
-              )}
-              <span className="text-xs text-gray-300 text-center">{service.desc}</span>
-            </a>
+          {services.map((service) => (
+            <div key={service.title} className="bg-white rounded-lg shadow-md overflow-hidden">
+              <div className="relative h-48">
+                <Image
+                  src={service.img}
+                  alt={service.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-4">
+                <h3 className="text-lg font-semibold">{service.title}</h3>
+                <p className="text-gray-600">{service.desc}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>

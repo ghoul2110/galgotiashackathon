@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Link from 'next/link';
 
 function shortenAddress(addr: string) {
   return addr ? `${addr.slice(0, 6)}...${addr.slice(-4)}` : "";
@@ -23,10 +24,10 @@ const NavbarWithWallet = () => {
           <span className="font-bold text-xl text-primary">ZENTIGRITY</span>
         </div>
         <div className="hidden md:flex gap-4 items-center">
-          <a href="/" className="px-3 py-1 rounded-md text-sm font-medium text-white bg-[#232329] hover:bg-[#35353b] transition-colors">Home</a>
-          <a href="/services" className="px-3 py-1 rounded-md text-sm font-medium text-white bg-[#232329] hover:bg-[#35353b] transition-colors">Services</a>
-          <a href="/dashboard" className="px-3 py-1 rounded-md text-sm font-medium text-white bg-[#232329] hover:bg-[#35353b] transition-colors">Dashboard</a>
-          <a href="/profile" className="px-3 py-1 rounded-md text-sm font-medium text-white bg-[#232329] hover:bg-[#35353b] transition-colors">Profile</a>
+          <Link href="/" className="px-3 py-1 rounded-md text-sm font-medium text-white bg-[#232329] hover:bg-[#35353b] transition-colors">Home</Link>
+          <Link href="/services" className="px-3 py-1 rounded-md text-sm font-medium text-white bg-[#232329] hover:bg-[#35353b] transition-colors">Services</Link>
+          <Link href="/dashboard" className="px-3 py-1 rounded-md text-sm font-medium text-white bg-[#232329] hover:bg-[#35353b] transition-colors">Dashboard</Link>
+          <Link href="/profile" className="px-3 py-1 rounded-md text-sm font-medium text-white bg-[#232329] hover:bg-[#35353b] transition-colors">Profile</Link>
         </div>
         <div className="flex items-center gap-2">
           {walletAddress ? (

@@ -1,5 +1,7 @@
 "use client";
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 const MEN_SALON_PACKAGES = [
   {
@@ -91,22 +93,23 @@ function PackageCard({ pkg, index, serviceName }: { pkg: typeof MEN_SALON_PACKAG
         ))}
       </ul>
       <button
-  className="border rounded px-3 py-1 text-sm font-semibold hover:bg-gray-100 disabled:opacity-50"
-  disabled={loading}
-  onClick={async () => {
-    setLoading(true);
-    try {
-      const txHash = await bookPackageOnChain(serviceName, index);
-      alert("Booking successful! Transaction hash: " + txHash);
-    } catch (e: any) {
-      alert("Booking failed: " + (e?.message || e));
-    } finally {
-      setLoading(false);
-    }
-  }}
->
-  {loading ? "Booking..." : "Book package"}
-</button>
+        className="border rounded px-3 py-1 text-sm font-semibold hover:bg-gray-100 disabled:opacity-50"
+        disabled={loading}
+        onClick={async () => {
+          setLoading(true);
+          try {
+            const txHash = await bookPackageOnChain(serviceName, index);
+            alert("Booking successful! Transaction hash: " + txHash);
+          } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            alert("Booking failed: " + errorMessage);
+          } finally {
+            setLoading(false);
+          }
+        }}
+      >
+        {loading ? "Booking..." : "Book package"}
+      </button>
     </div>
   );
 }
@@ -161,7 +164,6 @@ export default function ServiceDetailPage({
                 setLoading(true);
                 try {
                   if (!window.ethereum) throw new Error("MetaMask not detected");
-                  // Fuji testnet chainId is 0xA869 (43113)
                   const FUJI_CHAIN_ID = "0xA869";
                   const FUJI_PARAMS = {
                     chainId: FUJI_CHAIN_ID,
@@ -170,17 +172,22 @@ export default function ServiceDetailPage({
                     rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc"],
                     blockExplorerUrls: ["https://testnet.snowtrace.io/"]
                   };
-                  // Check network and prompt switch if needed
+                  
                   const currentChainId = await window.ethereum.request({ method: 'eth_chainId' });
                   if (currentChainId !== FUJI_CHAIN_ID) {
                     try {
-                      await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: FUJI_CHAIN_ID }] });
-                    } catch (switchError: any) {
-                      // This error code indicates the chain has not been added to MetaMask
-                      if (switchError.code === 4902) {
+                      await window.ethereum.request({ 
+                        method: 'wallet_switchEthereumChain', 
+                        params: [{ chainId: FUJI_CHAIN_ID }] 
+                      });
+                    } catch (switchError: unknown) {
+                      if (switchError && typeof switchError === 'object' && 'code' in switchError && switchError.code === 4902) {
                         try {
-                          await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [FUJI_PARAMS] });
-                        } catch (addError) {
+                          await window.ethereum.request({ 
+                            method: 'wallet_addEthereumChain', 
+                            params: [FUJI_PARAMS] 
+                          });
+                        } catch (addError: unknown) {
                           throw new Error("Please add the Fuji testnet to MetaMask");
                         }
                       } else {
@@ -188,21 +195,19 @@ export default function ServiceDetailPage({
                       }
                     }
                   }
+                  
                   const { ethers } = await import('ethers');
                   const provider = new ethers.providers.Web3Provider(window.ethereum);
                   const signer = provider.getSigner();
-                  const tx = await (await signer).sendTransaction({
+                  const tx = await signer.sendTransaction({
                     to: receiver,
                     value: ethers.utils.parseEther(amount || "0")
                   });
                   await tx.wait();
                   setTxHash(tx.hash);
-                } catch (err) {
-                  if (err instanceof Error) {
-                    setError(err.message);
-                  } else {
-                    setError("Transaction failed");
-                  }
+                } catch (err: unknown) {
+                  const errorMessage = err instanceof Error ? err.message : String(err);
+                  setError(errorMessage);
                 } finally {
                   setLoading(false);
                 }
@@ -211,7 +216,9 @@ export default function ServiceDetailPage({
               {loading ? "Processing..." : "Send Payment"}
             </button>
             {txHash && (
-              <div className="text-green-600 text-sm mt-2 break-all">Payment sent! Tx Hash: <a href={`https://etherscan.io/tx/${txHash}`} target="_blank" rel="noopener noreferrer" className="underline">{txHash}</a></div>
+              <div className="text-green-600 text-sm mt-2 break-all">
+                Payment sent! Tx Hash: <a href={`https://etherscan.io/tx/${txHash}`} target="_blank" rel="noopener noreferrer" className="underline">{txHash}</a>
+              </div>
             )}
             {error && (
               <div className="text-red-600 text-sm mt-2">{error}</div>
@@ -221,6 +228,7 @@ export default function ServiceDetailPage({
       </div>
     );
   }
+
   if (service.toLowerCase().includes("men")) {
     return (
       <div className="flex flex-col md:flex-row gap-8 p-8 min-h-screen bg-[#f7f7f9]">
@@ -232,7 +240,13 @@ export default function ServiceDetailPage({
         </div>
         <div className="w-full md:w-80">
           <div className="mb-6">
-            <img src="/services/men's salon.png" alt="Men's Salon" className="rounded-xl w-full mb-4" />
+            <Image 
+              src="/services/men's salon.png" 
+              alt="Men's Salon" 
+              width={320}
+              height={240}
+              className="rounded-xl w-full mb-4" 
+            />
             <div className="text-center font-bold text-lg mb-2">No items in your cart</div>
             <div className="text-center text-gray-700 text-sm mb-4">Your cart is empty</div>
           </div>
@@ -242,37 +256,7 @@ export default function ServiceDetailPage({
       </div>
     );
   }
-  // Payment Gateway UI
-  if (service.toLowerCase().includes("payment gateway")) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
-        <div className="bg-white/90 rounded-2xl shadow-2xl p-8 w-full max-w-md flex flex-col gap-6 border border-blue-100">
-          <h1 className="text-3xl font-bold text-blue-700 mb-2 text-center">Payment Gateway</h1>
-          <div className="flex flex-col gap-4">
-            <label className="block">
-              <span className="text-gray-700 font-semibold">Receiver's Wallet Address</span>
-              <input
-                type="text"
-                placeholder="0x..."
-                className="mt-1 block w-full rounded-lg border border-blue-200 px-4 py-2 bg-blue-50 text-gray-900 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
-              />
-            </label>
-            <label className="block">
-              <span className="text-gray-700 font-semibold">Amount</span>
-              <input
-                type="number"
-                min="0"
-                step="any"
-                placeholder="Enter amount"
-                className="mt-1 block w-full rounded-lg border border-blue-200 px-4 py-2 bg-blue-50 text-gray-900 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
-              />
-            </label>
-            <button className="w-full mt-2 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg shadow transition">Send Payment</button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+
   // Placeholder for other services
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#f7f7f9]">
