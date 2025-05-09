@@ -117,20 +117,21 @@ export default function ServiceDetailPage({
   params: { service: string };
 }) {
   const service = decodeURIComponent(params.service || "");
+  const [receiver, setReceiver] = React.useState("");
+  const [amount, setAmount] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const [txHash, setTxHash] = React.useState("");
+  const [error, setError] = React.useState("");
+
   // Payment Gateway UI must be checked first
   if (service.toLowerCase().includes("payment gateway")) {
-    const [receiver, setReceiver] = React.useState("");
-    const [amount, setAmount] = React.useState("");
-    const [loading, setLoading] = React.useState(false);
-    const [txHash, setTxHash] = React.useState("");
-    const [error, setError] = React.useState("");
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
         <div className="bg-white/90 rounded-2xl shadow-2xl p-8 w-full max-w-md flex flex-col gap-6 border border-blue-100">
           <h1 className="text-3xl font-bold text-blue-700 mb-2 text-center">Payment Gateway</h1>
           <div className="flex flex-col gap-4">
             <label className="block">
-              <span className="text-gray-700 font-semibold">Receiver's Wallet Address</span>
+              <span className="text-gray-700 font-semibold">Receiver&apos;s Wallet Address</span>
               <input
                 type="text"
                 placeholder="0x..."
