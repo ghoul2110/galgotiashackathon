@@ -87,6 +87,7 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^15.3.2",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@nomiclabs/hardhat-ethers": "^2.2.3",
     "@types/formidable": "^3.4.5",

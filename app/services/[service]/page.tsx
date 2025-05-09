@@ -111,7 +111,12 @@ function PackageCard({ pkg, index, serviceName }: { pkg: typeof MEN_SALON_PACKAG
   );
 }
 
-export default function ServiceDetailPage({ params }: { params: { service: string } }) {
+export default function ServiceDetailPage({
+  params,
+}: {
+  params: { service: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const service = decodeURIComponent(params.service || "");
   // Payment Gateway UI must be checked first
   if (service.toLowerCase().includes("payment gateway")) {
