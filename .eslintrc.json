@@ -65,5 +65,15 @@
     "@typescript-eslint/no-unsafe-type-query": "off",
     "@typescript-eslint/no-unsafe-type-reference": "off",
     "@typescript-eslint/no-unsafe-type-template": "off"
-  }
+  },
+  "ignorePatterns": [
+    "node_modules/",
+    ".next/",
+    "out/",
+    "public/",
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 } 
