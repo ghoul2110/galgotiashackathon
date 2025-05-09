@@ -98,6 +98,7 @@
     "@types/twilio": "^3.19.2",
     "concurrently": "^8.2.2",
     "eslint": "^9.26.0",
+    "eslint-config-next": "^15.3.2",
     "ethers": "^5.8.0",
     "hardhat": "^2.17.0",
     "mini-css-extract-plugin": "^2.9.2",

@@ -115,7 +115,6 @@ export default function ServiceDetailPage({
   params,
 }: {
   params: { service: string };
-  searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const service = decodeURIComponent(params.service || "");
   // Payment Gateway UI must be checked first
