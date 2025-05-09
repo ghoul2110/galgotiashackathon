@@ -128,7 +128,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 📧 Contact
 
-Core Team - [philosanjay5@gmail.com](mailto:philosanjay5@gmail.com)
+Core Team - [kunalpsingh5@gmail.com](mailto:kunalpsingh25@gmail.com)
 ---
 
 **Zentigrity** - Rebuilding Civic Trust Through Decentralized Governance  
